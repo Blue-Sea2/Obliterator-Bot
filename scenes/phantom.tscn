@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://6oywekx0x0y2"]
 
-[ext_resource type="Script" path="res://scripts/phantom.gd" id="1_7nr15"]
+[ext_resource type="Script" uid="uid://cq5kqwrqjxsch" path="res://scripts/phantom.gd" id="1_7nr15"]
 [ext_resource type="Texture2D" uid="uid://qjlbn6lku8v0" path="res://sprites/phantom_spritesheet.png" id="2_1k3t0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wwuyq"]
