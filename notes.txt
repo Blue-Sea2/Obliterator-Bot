@@ -1,0 +1,13 @@
+COLLISION LAYERS
+
+Blocks on layer 1
+Player on layer 2
+Player attack on layer 3
+Enemy on layer 4
+
+Z ORDERING
+
+Front on Z 2
+Player on Z 1
+Mid+enemies on Z 0
+Back on Z -1
