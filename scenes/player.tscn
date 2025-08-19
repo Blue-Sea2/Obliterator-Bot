@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://c7p4e37w43wx7"]
+[gd_scene load_steps=89 format=3 uid="uid://c7p4e37w43wx7"]
 
 [ext_resource type="Texture2D" uid="uid://ca8fxpxlqgm2b" path="res://sprites/spritesheet_char.png" id="1_ika3y"]
 [ext_resource type="Script" uid="uid://cm75hk4jb2orp" path="res://scripts/player.gd" id="1_qp24u"]
@@ -362,7 +362,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -385,7 +385,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_left",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -408,7 +408,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_right",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -431,7 +431,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -677,9 +677,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhtj7"]
 size = Vector2(12, 7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cprc"]
-size = Vector2(14, 7)
-
 [node name="player" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
@@ -687,7 +684,7 @@ script = ExtResource("1_qp24u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_kef2g")
-animation = &"hit_up"
+animation = &"attack_down"
 autoplay = "idle_down"
 
 [node name="hitbox" type="CollisionShape2D" parent="."]
@@ -695,13 +692,29 @@ position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_xhtj7")
 
 [node name="attack" type="Area2D" parent="."]
-visible = false
+rotation = 4.71239
 collision_layer = 4
 collision_mask = 8
 
-[node name="attack_collision" type="CollisionShape2D" parent="attack"]
-position = Vector2(7, -11)
-shape = SubResource("RectangleShape2D_8cprc")
+[node name="attack_1" type="CollisionPolygon2D" parent="attack"]
+position = Vector2(0, -8)
+polygon = PackedVector2Array(-8, -3, 3, -7, 3, 7)
+disabled = true
+
+[node name="attack_2" type="CollisionPolygon2D" parent="attack"]
+position = Vector2(5, -5)
+polygon = PackedVector2Array(-9, -8, 2, -10, 9, -4, 10, 6, -2, 6)
+disabled = true
+
+[node name="attack_3" type="CollisionPolygon2D" parent="attack"]
+position = Vector2(8, -1)
+scale = Vector2(1, 1.56)
+polygon = PackedVector2Array(-3, 1.28205, -3, 5.76923, 2, 8.33333, 7, 4.48718, 7, -2.5641, 1, -8.33333)
+disabled = true
+
+[node name="attack_4" type="CollisionPolygon2D" parent="attack"]
+position = Vector2(6, 7)
+polygon = PackedVector2Array(-6, -7, -6, 8, 4, 6, 9, -1)
 disabled = true
 
 [node name="death_timer" type="Timer" parent="."]

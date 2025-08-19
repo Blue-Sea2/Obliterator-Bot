@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack: Area2D = $attack
-@onready var attack_collision: CollisionShape2D = $attack/attack_collision
 @onready var death_timer: Timer = $death_timer
 
 var alive = true
@@ -36,7 +35,7 @@ func _physics_process(delta: float) -> void:
 			direction="left"
 	
 	
-	attacking-=delta
+	attacking-=12*delta
 	if Input.is_action_just_pressed("attack") and attacking<-.1 and alive:
 		if direction == "right":
 			attack.rotation_degrees = 0
@@ -46,16 +45,18 @@ func _physics_process(delta: float) -> void:
 			attack.rotation_degrees = 90
 		elif direction == "left":
 			attack.rotation_degrees = 180
-		attack_collision.disabled = false
-		attacking = .5
-	elif attacking<=0:
-		attack_collision.disabled = true
+		attacking = 6
+	elif attacking>0:
+			attack.get_child(0).disabled = floor(attacking)!=4
+			attack.get_child(1).disabled = floor(attacking)!=3
+			attack.get_child(2).disabled = floor(attacking)!=2
+			attack.get_child(3).disabled = floor(attacking)!=1
 	
 	if !alive:
 		animated_sprite.play("hit_"+direction)
 	elif attacking>0:
 		animated_sprite.play("attack_"+direction)
-		attack_collision.position.y = (attacking/.5) * -22 + 11
+		
 	elif joystick.length():
 		animated_sprite.play("run_"+direction)
 	else:
