@@ -5,9 +5,10 @@ extends CharacterBody2D
 @onready var death_timer: Timer = $death_timer
 
 var alive = true
-const SPEED = 100.0
 var direction = "down"
 var attacking = 0
+const SPEED = 100.0
+const attack_cooldown = 1 #in 12 FPS frames
 
 func _physics_process(delta: float) -> void:
 	var joystick = Vector2(0,0)
@@ -36,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	attacking-=12*delta
-	if Input.is_action_just_pressed("attack") and attacking<-.1 and alive:
+	if Input.is_action_just_pressed("attack") and attacking<=attack_cooldown and alive:
 		if direction == "right":
 			attack.rotation_degrees = 0
 		elif direction == "up":

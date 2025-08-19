@@ -684,7 +684,7 @@ script = ExtResource("1_qp24u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_kef2g")
-animation = &"attack_down"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="hitbox" type="CollisionShape2D" parent="."]
@@ -692,7 +692,7 @@ position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_xhtj7")
 
 [node name="attack" type="Area2D" parent="."]
-rotation = 4.71239
+visible = false
 collision_layer = 4
 collision_mask = 8
 
