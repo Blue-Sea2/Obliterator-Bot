@@ -4,6 +4,7 @@ Blocks on layer 1
 Player on layer 2
 Player attack on layer 3
 Enemy on layer 4
+Interactive Zones on layer 5
 
 Z ORDERING
 

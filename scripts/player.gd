@@ -4,11 +4,14 @@ extends CharacterBody2D
 @onready var attack: Area2D = $attack
 @onready var death_timer: Timer = $death_timer
 
+@export var ladders: Node2D
+
 var alive = true
 var direction = "down"
 var attacking = 0
 const SPEED = 100.0
 const attack_cooldown = 1 #in 12 FPS frames
+var climbing = false
 
 func _physics_process(delta: float) -> void:
 	var joystick = Vector2(0,0)
@@ -18,23 +21,30 @@ func _physics_process(delta: float) -> void:
 	elif death_timer.is_stopped():
 		attacking = 0
 		death_timer.start()
-		
-	if joystick.length():
-		joystick = joystick/joystick.length()
-		
-	velocity.x = move_toward(velocity.x, SPEED*joystick.x, 25)
-	velocity.y = move_toward(velocity.y, SPEED*joystick.y, 25)
 	
-	if attacking<=0:
-		if joystick.y>0:
-			direction="down"
-		elif joystick.y<0:
-			direction="up"
-		elif joystick.x>0:
-			direction="right"
-		elif joystick.x<0:
-			direction="left"
-	
+	if !climbing:
+		if joystick.length():
+			joystick = joystick/joystick.length()
+			
+		velocity.x = move_toward(velocity.x, SPEED*joystick.x, 25)
+		velocity.y = move_toward(velocity.y, SPEED*joystick.y, 25)
+		
+		if attacking<=0:
+			if joystick.y>0:
+				direction="down"
+			elif joystick.y<0:
+				direction="up"
+			elif joystick.x>0:
+				direction="right"
+			elif joystick.x<0:
+				direction="left"
+	else:
+		attacking = 0
+		if joystick.y:
+			climbing = joystick.y
+		velocity.x=0
+		position = global_position.snapped(Vector2(8, 1))
+		velocity.y = move_toward(velocity.y, SPEED*climbing/2, 15)
 	
 	attacking-=12*delta
 	if Input.is_action_just_pressed("attack") and attacking<=attack_cooldown and alive:
@@ -55,6 +65,8 @@ func _physics_process(delta: float) -> void:
 	
 	if !alive:
 		animated_sprite.play("hit_"+direction)
+	elif climbing:
+		animated_sprite.play("climb")
 	elif attacking>0:
 		animated_sprite.play("attack_"+direction)
 		
@@ -68,3 +80,12 @@ func _physics_process(delta: float) -> void:
 
 func _on_death_timer_timeout() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_zone_detector_body_entered(body: Node2D) -> void:
+	if body == ladders:
+		climbing = true
+
+func _on_zone_detector_body_exited(body: Node2D) -> void:
+	if body == ladders:
+		climbing = 0
